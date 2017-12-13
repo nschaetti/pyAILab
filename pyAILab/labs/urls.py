@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^$', views.home, name=u"labs"),
     url(r'^home$', views.home, name=u"labs"),
     # Main page of a lab
-    url(r'^(?P<lab_slug>[\w-]+)$', views.view_lab_main, name=u"lab"),
+    url(r'^(?P<slug>[\w-]+)$', views.view_lab_main, name=u"lab"),
     # Main page of an experience
     url(r'^(?P<lab_slug>[\w-]+)/(?P<xp_slug>[\w-]+)$', views.view_xp_main, name=u"xp")
 ]

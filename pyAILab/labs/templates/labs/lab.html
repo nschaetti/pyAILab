@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>pyAILab</title>
-</head>
-<body>
-    {{ lab_slug }}
-</body>
-</html>
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Laboratory {{ lab.name }}{% endblock %}
+{% block content %}
+    <h2>AI Laboratory {{ lab.name }}</h2>
+    <p>{{ lab.description|truncatewords_html:80 }}</p>
+    {% for xp in xps %}
+        <div class="labs">
+            <h3>{{ xp.name }}</h3>
+            <p>{{ xp.description|truncatewords_html:80 }}</p>
+            <p><a href="{% url 'xp' lab.slug xp.slug %}">More info</a></p>
+        </div>
+    {% empty %}
+        <p>No lab</p>
+    {% endfor %}
+{% endblock %}

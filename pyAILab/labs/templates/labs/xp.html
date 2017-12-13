@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    {{ xp_slug }}
-</body>
-</html>
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Experience {{ xp.name }}{% endblock %}
+{% block content %}
+    <h2>AI Experience {{ xp.name }}</h2>
+    <p>{{ xp.description|truncatewords_html:80 }}</p>
+{% endblock %}

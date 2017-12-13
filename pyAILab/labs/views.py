@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, Http404
+from django.shortcuts import render, get_object_or_404
+from labs.models import Lab, Experience
 
 
 #####################################
@@ -11,11 +12,16 @@ from django.shortcuts import render
 # Homepage with lab list
 def home(request):
     """
-    Home page with lab list
+    Home page with lab list,
+    show all the labs
     :param request:
     :return:
     """
-    return render(request, 'labs/home.html')
+    # Get all labs
+    labs = Lab.objects.all()
+
+    # Render template
+    return render(request, 'labs/home.html', {'labs': labs})
 # end home
 
 #####################################
@@ -24,13 +30,20 @@ def home(request):
 
 
 # View a lab main page
-def view_lab_main(request, lab_slug):
+def view_lab_main(request, slug):
     """
     View a lab's main page
     :param request:
     :return:
     """
-    return render(request, 'labs/lab.html', {'lab_slug': lab_slug})
+    # Try to get the lab
+    lab = get_object_or_404(Lab, slug=slug)
+
+    # Get all experiences
+    xps = Experience.objects.filter(lab_id=lab.id)
+
+    # Render template
+    return render(request, 'labs/lab.html', {'lab': lab, 'xps': xps})
 # end view_lab_main
 
 #####################################
@@ -47,5 +60,10 @@ def view_xp_main(request, lab_slug, xp_slug):
     :param xp_slug:
     :return:
     """
-    return render(request, 'labs/xp.html', {'lab_slug': lab_slug, 'xp_slug': xp_slug})
+    # Try to get the experience
+    lab = get_object_or_404(Lab, slug=lab_slug)
+    xp = get_object_or_404(Experience, slug=xp_slug, lab=lab.id)
+
+    # Render template
+    return render(request, 'labs/xp.html', {'xp': xp})
 # end view_xp_main
